@@ -1,9 +1,87 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+const knex = require('../knex');
+const jwt = require('jsonwebtoken');
+const saltRounds = 8;
+const bcrypt = require('bcrypt');
+
+router.post('/login', (req, res, next) => {
+  console.log(req.body);
+  knex('users')
+  .select('*')
+  .where('users.name', req.body.name)
+  .then(function(user) {
+    if(Object.keys(user).length === 0) {
+      res.setHeader('Content-Type', 'text/plain');
+      res.send('Incorrect username or password');
+    } else {
+      bcrypt.compare(req.body.password, user.hashed_password, function(err, decode) {
+        if (err) {
+          return res.send('Invalid usename or password');
+        } else if (decode === true) {
+          var token = jwt.sign(user, 'secret');
+          return res.send({
+            jwtToken: token
+          }).status(200);
+        }
+      });
+    }
+  });
+  console.log('login');
+});
+
+router.post('/create', (req, res, next) => {
+  console.log('create');
+  res.sendStatus(200);
+});
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+router.get('/', (req, res, next) => {
+  knex('users')
+  .select('id', 'user_name', 'first_name', 'last_name')
+  .then(function (data) {
+    return res.send(data);
+  });
+});
+
+router.get('/:id', (req, res, next) => {
+  knex('users')
+  .where('users.id', req.params.id)
+  .join('beers', 'users.id', '=', 'beers.user_id')
+  .join('locations', 'beers.location_id', '=', 'locations.id')
+  .select('user_id', 'first_name', 'last_name', 'number_beers', 'location_name')
+  .then((beers) => {
+    console.log(beers);
+  });
+});
+
+router.post('/:id', (req, res, next) => {
+  let id = req.params.id;
+  let beers = req.body.number_beers;
+  let beersObj = {
+    user_id: id,
+    number_beers: beers
+  }
+  knex('users')
+  .insert(beersObj)
+  .returning('*')
+  .then((returnObj) => {
+    res.send(returnObj);
+  })
+});
+
+router.patch('/:id', (req, res, next) => {
+  let id = req.params.id;
+  let body = req.body;
+  console.log(id);
+  res.sendStatus(200);
+});
+
+router.delete('/:id', (req, res, next) => {
+  let id = req.params.id;
+  let body = req.body;
+  console.log(id);
+  res.sendStatus(200);
 });
 
 module.exports = router;
