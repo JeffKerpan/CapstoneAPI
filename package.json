@@ -1,14 +1,14 @@
 {
-  "name": "capstoneapi",
+  "name": "CapstoneAPI",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "respository": {
     "type": "git",
-    "url": "git+ https://github.com/JeffKerpan/CapstoneAPI.git"
+    "url": "git+https://github.com/JeffKerpan/CapstoneAPI.giT"
   },
   "keywords": [],
   "author": "",
@@ -16,7 +16,7 @@
   "bugs": {
     "url": "https://github.com/JeffKerpan/CapstoneAPI/issues"
   },
-  "homepage": "https://github.com/JeffKerpan/CapstoneAPI/blob/master/README.md",
+  "homepage": "https://github.com/JeffKerpan/CapstoneAPI#readme",
   "dependencies": {
     "bcrypt": "^1.0.3",
     "body-parser": "^1.17.2",
