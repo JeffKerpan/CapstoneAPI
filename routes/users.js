@@ -6,7 +6,7 @@ const saltRounds = 8;
 const bcrypt = require('bcrypt');
 
 router.post('/login', (req, res, next) => {
-  console.log(req.body);
+  // console.log(req.body);
   knex('users')
   .select('*')
   .where('users.name', req.body.name)
@@ -27,11 +27,11 @@ router.post('/login', (req, res, next) => {
       });
     }
   });
-  console.log('login');
+  // console.log('login');
 });
 
 router.post('/create', (req, res, next) => {
-  console.log('create');
+  // console.log('create');
   res.sendStatus(200);
 });
 
@@ -51,7 +51,8 @@ router.get('/:id', (req, res, next) => {
   .join('locations', 'beers.location_id', '=', 'locations.id')
   .select('user_id', 'first_name', 'last_name', 'number_beers', 'location_name')
   .then((beers) => {
-    console.log(beers);
+    console.log('HERE', beers);
+    return res.send(beers);
   });
 });
 
@@ -73,14 +74,14 @@ router.post('/:id', (req, res, next) => {
 router.patch('/:id', (req, res, next) => {
   let id = req.params.id;
   let body = req.body;
-  console.log(id);
+  // console.log(id);
   res.sendStatus(200);
 });
 
 router.delete('/:id', (req, res, next) => {
   let id = req.params.id;
   let body = req.body;
-  console.log(id);
+  // console.log(id);
   res.sendStatus(200);
 });
 
