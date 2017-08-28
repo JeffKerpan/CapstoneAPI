@@ -8,7 +8,7 @@ const users = require('./routes/users.js');
 const port = process.env.PORT || 3200
 
 app.use(cors());
-app.use(bodyParser.urlencoded({ extened: false }));
+// app.use(bodyParser({ extened: false }));
 app.use(bodyParser.json());
 
 app.use('/users', users);

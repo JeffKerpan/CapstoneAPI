@@ -5,33 +5,33 @@ const jwt = require('jsonwebtoken');
 const saltRounds = 8;
 const bcrypt = require('bcrypt');
 
-router.post('/login', (req, res, next) => {
-  // console.log(req.body);
-  knex('users')
-  .select('*')
-  .where('users.name', req.body.name)
-  .then(function(user) {
-    if(Object.keys(user).length === 0) {
-      res.setHeader('Content-Type', 'text/plain');
-      res.send('Incorrect username or password');
-    } else {
-      bcrypt.compare(req.body.password, user.hashed_password, function(err, decode) {
-        if (err) {
-          return res.send('Invalid usename or password');
-        } else if (decode === true) {
-          var token = jwt.sign(user, 'secret');
-          return res.send({
-            jwtToken: token
-          }).status(200);
-        }
-      });
-    }
-  });
-  // console.log('login');
-});
+// router.post('/login', (req, res, next) => {
+//   // console.log(req.body);
+//   knex('users')
+//   .select('*')
+//   .where('users.name', req.body.name)
+//   .then(function(user) {
+//     if(Object.keys(user).length === 0) {
+//       res.setHeader('Content-Type', 'text/plain');
+//       res.send('Incorrect username or password');
+//     } else {
+//       bcrypt.compare(req.body.password, user.hashed_password, function(err, decode) {
+//         if (err) {
+//           return res.send('Invalid usename or password');
+//         } else if (decode === true) {
+//           var token = jwt.sign(user, 'secret');
+//           return res.send({
+//             jwtToken: token
+//           }).status(200);
+//         }
+//       });
+//     }
+//   });
+//   // console.log('login');
+// });
 
 router.post('/create', (req, res, next) => {
-  // console.log('create');
+  console.log(req.body);
   res.sendStatus(200);
 });
 
@@ -56,7 +56,21 @@ router.get('/:id', (req, res, next) => {
   });
 });
 
-router.post('/:id', (req, res, next) => {
+router.post('/new', (req, res, next) => {
+  let newUserObj = {
+    username: req.params.user_name;
+    firstname: req.params.first_name;
+    lastname: req.params.last_name;
+  }
+  knex('users')
+  .insert(newUserObj)
+  .returning('*')
+  .then((newUserObj) => {
+    res.send(newUserObj);
+  })
+});
+
+router.post('/', (req, res, next) => {
   let id = req.params.id;
   let beers = req.body.number_beers;
   let beersObj = {
