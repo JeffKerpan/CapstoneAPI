@@ -61,6 +61,7 @@ router.post('/new', (req, res, next) => {
     user_name: req.body.user_name,
     first_name: req.body.first_name,
     last_name: req.body.last_name,
+    hashed_password: req.body.hashed_password
   }
   knex('users')
   .insert(newUserObj)
