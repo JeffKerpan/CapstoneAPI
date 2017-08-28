@@ -5,8 +5,7 @@ exports.up = function(knex, Promise) {
     table.string('user_name', 255).notNull().defaultTo('');
     table.string('first_name', 255).notNull().defaultTo('');
     table.string('last_name', 255).notNull().defaultTo('');
-    table.specificType('hashed_password', 'char(60)').notNull();
-  })
+    table.specificType('hashed_password', 'char(60)').notNull();  })
 };
 
 exports.down = function(knex, Promise) {
