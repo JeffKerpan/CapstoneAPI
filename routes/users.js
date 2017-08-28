@@ -58,9 +58,9 @@ router.get('/:id', (req, res, next) => {
 
 router.post('/new', (req, res, next) => {
   let newUserObj = {
-    username: req.params.user_name,
-    firstname: req.params.first_name,
-    lastname: req.params.last_name,
+    user_name: req.body.user_name,
+    first_name: req.body.first_name,
+    last_name: req.body.last_name,
   }
   knex('users')
   .insert(newUserObj)
