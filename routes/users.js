@@ -57,6 +57,7 @@ router.get('/:id', (req, res, next) => {
 });
 
 router.post('/new', (req, res, next) => {
+  console.log(req.body);
   let newUserObj = {
     user_name: req.body.user_name,
     first_name: req.body.first_name,
