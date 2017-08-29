@@ -57,7 +57,7 @@ router.get('/:id', (req, res, next) => {
 });
 
 router.post('/new', (req, res, next) => {
-  console.log('TEDDI');
+  console.log('TEDDI1');
   let newUserObj = {
     user_name: req.body.user_name,
     first_name: req.body.first_name,
@@ -68,11 +68,11 @@ router.post('/new', (req, res, next) => {
   .insert(newUserObj)
   .returning('*')
   .then((newUserObj) => {
-    console.log('TEDDI');
+    console.log('TEDDI2');
     res.send(newUserObj);
   })
   .catch((error) => {
-    console.log('ERROR');
+    console.log(error, 'ERROR');
   })
 });
 
