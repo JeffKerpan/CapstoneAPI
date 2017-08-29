@@ -44,20 +44,9 @@ router.get('/', (req, res, next) => {
   });
 });
 
-router.get('/:id', (req, res, next) => {
-  knex('users')
-  .where('users.id', req.params.id)
-  .join('beers', 'users.id', '=', 'beers.user_id')
-  .join('locations', 'beers.location_id', '=', 'locations.id')
-  .select('user_id', 'first_name', 'last_name', 'number_beers', 'location_name')
-  .then((beers) => {
-    console.log('HERE', beers);
-    return res.send(beers);
-  });
-});
-
 router.post('/new', (req, res, next) => {
   console.log('TEDDI1');
+
   let newUserObj = {
     user_name: req.body.user_name,
     first_name: req.body.first_name,
@@ -103,6 +92,18 @@ router.delete('/:id', (req, res, next) => {
   let body = req.body;
   // console.log(id);
   res.sendStatus(200);
+});
+
+router.get('/:id', (req, res, next) => {
+  knex('users')
+  .where('users.id', req.params.id)
+  .join('beers', 'users.id', '=', 'beers.user_id')
+  .join('locations', 'beers.location_id', '=', 'locations.id')
+  .select('user_id', 'first_name', 'last_name', 'number_beers', 'location_name')
+  .then((beers) => {
+    console.log('HERE', beers);
+    return res.send(beers);
+  });
 });
 
 module.exports = router;
