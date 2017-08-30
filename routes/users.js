@@ -12,6 +12,7 @@ router.post('/login', (req, res, next) => {
   .where('users.user_name', req.body.user_name)
   .then(function(user) {
     if(Object.keys(user).length === 0) {
+      console.log(user);
       res.setHeader('Content-Type', 'text/plain');
       res.send('Incorrect username or password');
     } else {
