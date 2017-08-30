@@ -10,8 +10,8 @@ router.post('/login', (req, res, next) => {
   knex('users')
   .select('*')
   .where('users.user_name', req.body.user_name)
-  .then(function(user_name) {
-    if(Object.keys(user_name).length === 0) {
+  .then(function(user) {
+    if(Object.keys(user).length === 0) {
       res.setHeader('Content-Type', 'text/plain');
       res.send('Incorrect username or password');
     } else {
@@ -30,10 +30,10 @@ router.post('/login', (req, res, next) => {
   // console.log('login');
 });
 
-router.post('/create', (req, res, next) => {
-  console.log(req.body);
-  res.sendStatus(200);
-});
+// router.post('/create', (req, res, next) => {
+//   console.log(req.body);
+//   res.sendStatus(200);
+// });
 
 /* GET users listing. */
 router.get('/', (req, res, next) => {
