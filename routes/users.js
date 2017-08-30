@@ -16,6 +16,7 @@ router.post('/login', (req, res, next) => {
       res.setHeader('Content-Type', 'text/plain');
       res.send('Incorrect username or password');
     } else {
+      console.log(req.body.password, user.hashed_password);
       bcrypt.compare(req.body.password, user.hashed_password, function(err, decode) {
         if (err) {
           console.log(err);
