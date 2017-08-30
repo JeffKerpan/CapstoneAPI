@@ -58,7 +58,7 @@ router.post('/new', (req, res, next) => {
   .returning('*')
   .then((newUserObj) => {
     console.log('TEDDI2');
-    res.send(newUserObj);
+    res.json(newUserObj);
   })
   .catch((error) => {
     console.log(error, 'ERROR');
