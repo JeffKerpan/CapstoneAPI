@@ -18,6 +18,7 @@ router.post('/login', (req, res, next) => {
     } else {
       bcrypt.compare(req.body.password, user.hashed_password, function(err, decode) {
         if (err) {
+          console.log(err);
           return res.send('Invalid usename or password');
         } else if (decode === true) {
           var token = jwt.sign(user, 'secret');
