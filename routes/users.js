@@ -5,30 +5,30 @@ const jwt = require('jsonwebtoken');
 const saltRounds = 8;
 const bcrypt = require('bcrypt');
 
-// router.post('/login', (req, res, next) => {
-//   // console.log(req.body);
-//   knex('users')
-//   .select('*')
-//   .where('users.name', req.body.name)
-//   .then(function(user) {
-//     if(Object.keys(user).length === 0) {
-//       res.setHeader('Content-Type', 'text/plain');
-//       res.send('Incorrect username or password');
-//     } else {
-//       bcrypt.compare(req.body.password, user.hashed_password, function(err, decode) {
-//         if (err) {
-//           return res.send('Invalid usename or password');
-//         } else if (decode === true) {
-//           var token = jwt.sign(user, 'secret');
-//           return res.send({
-//             jwtToken: token
-//           }).status(200);
-//         }
-//       });
-//     }
-//   });
-//   // console.log('login');
-// });
+router.post('/login', (req, res, next) => {
+  // console.log(req.body);
+  knex('users')
+  .select('*')
+  .where('users.user_name', req.body.user_name)
+  .then(function(user_name) {
+    if(Object.keys(user_name).length === 0) {
+      res.setHeader('Content-Type', 'text/plain');
+      res.send('Incorrect username or password');
+    } else {
+      bcrypt.compare(req.body.password, user.hashed_password, function(err, decode) {
+        if (err) {
+          return res.send('Invalid usename or password');
+        } else if (decode === true) {
+          var token = jwt.sign(user, 'secret');
+          return res.send({
+            jwtToken: token
+          }).status(200);
+        }
+      });
+    }
+  });
+  // console.log('login');
+});
 
 router.post('/create', (req, res, next) => {
   console.log(req.body);
