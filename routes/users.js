@@ -79,7 +79,6 @@ router.post('/new', (req, res, next) => {
   })
 });
 
-router.post('/cheers', (req, res, next) => {
 
   // let newBeersObj = { //can I insert into multiple tables in a post route
     //I have joins in my Get route - will these carry over to my post route
@@ -90,29 +89,38 @@ router.post('/cheers', (req, res, next) => {
     // number_beers: req.body.number_beers, //beers
     // location_name: req.body.location_name //locations
   // }
+  router.post('/cheers', (req, res, next) => {
   knex('locations')
-  .select('id')
+  .select('*')
   .where('location_name', req.body.location_name)
   .then(locationId => {
     console.log(locationId);
     knex('users')
-    .select('id')
-    .where('first_name', req.body.first_name)
+    .select('*')
+    .where('id', req.body.id)
     .then(userId => {
-      console.log(userId);
+      console.log(userId, 'userId');
       knex('beers')
       .returning('*')
       .insert({
-        user_id: userId[0].id,
+        user_id: req.body.id,
         location_id: locationId[0].id,
         number_beers: req.body.number_beers,
         friend_name: req.body.friend_name
       })
       .then(beersObj => {
+        knex('beers')
+        .select('location_name', 'number_beers', 'friend_name')
+        .where('beers.id', beersObj[0].id)
+        .join('locations', 'locations.id', 'beers.location_id')
+        .then(displayObj => {
+          console.log(displayObj);
+          res.send(displayObj)
+        })
         // res.json(beersObj[0])
-        console.log(beersObj);
+        // console.log(beersObj);
       })
-      console.log(userId);
+      // console.log(userId);
     })
     // .insert(newBeersObj)
     // res.json(newBeersObj);
@@ -157,9 +165,9 @@ router.get('/:id', (req, res, next) => {
   .where('users.id', req.params.id)
   .join('beers', 'users.id', '=', 'beers.user_id')
   .join('locations', 'beers.location_id', '=', 'locations.id')
-  .select('user_id', 'first_name', 'last_name', 'number_beers', 'location_name')
+  .select('number_beers', 'friend_name', 'location_name')
   .then((beers) => {
-    console.log('HERE', beers);
+    console.log('GetID Route HERE', beers);
     return res.send(beers);
   });
 });
