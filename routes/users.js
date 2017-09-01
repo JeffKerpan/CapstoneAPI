@@ -89,24 +89,21 @@ router.post('/new', (req, res, next) => {
     // number_beers: req.body.number_beers, //beers
     // location_name: req.body.location_name //locations
   // }
-  router.post('/cheers', (req, res, next) => {
-  knex('locations')
-  .select('*')
-  .where('location_name', req.body.location_name)
-  .then(locationId => {
-    console.log(locationId);
+
+  postLocation = (locationId, req, res) => {
+    console.log(req);
     knex('users')
     .select('*')
-    .where('id', req.body.id)
+    .where('id', req.id)
     .then(userId => {
       console.log(userId, 'userId');
       knex('beers')
       .returning('*')
       .insert({
-        user_id: req.body.id,
+        user_id: req.id,
         location_id: locationId[0].id,
-        number_beers: req.body.number_beers,
-        friend_name: req.body.friend_name,
+        number_beers: req.number_beers,
+        friend_name: req.friend_name,
 
       })
       .then(beersObj => {
@@ -118,13 +115,34 @@ router.post('/new', (req, res, next) => {
           console.log(displayObj);
           res.send(displayObj)
         })
-        // res.json(beersObj[0])
-        // console.log(beersObj);
-      })
-      // console.log(userId);
     })
-    // .insert(newBeersObj)
-    // res.json(newBeersObj);
+  })
+}
+
+  router.post('/cheers', (req, res, next) => {
+    req.body.location_name = req.body.location_name.toLowerCase();
+    console.log(req.body.location_name);
+  knex('locations')
+  .select('*')
+  .where('location_name', req.body.location_name)
+  .then(locationId => {
+    console.log(locationId);
+    if(locationId.length) {
+      postLocation(locationId, req.body, res)
+    } else {
+      console.log('TAZ');
+      knex('locations')
+      .returning('*')
+      .insert({location_name: req.body.location_name})
+      .then(locationId => {
+        console.log(locationId);
+        postLocation(locationId, req.body, res)
+      })
+      .catch((error) => {
+        console.log(error, 'locationId ERR');
+      })
+    }
+
   })
   .catch((error) => {
     console.log(error, 'NEW CHEERS ERROR');

@@ -6,7 +6,7 @@ exports.seed = function(knex, Promise) {
       // Inserts seed entries
       return knex('locations').insert([{
           id: 1,
-          location_name: 'Backcountry'
+          location_name: 'backcountry'
         }
       ]);
     }).then(function() {
