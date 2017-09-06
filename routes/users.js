@@ -126,7 +126,7 @@ router.post('/new', (req, res, next) => {
   .select('*')
   .where('location_name', req.body.location_name)
   .then(locationId => {
-    console.log(locationId);
+    console.log(locationId, 'TEDDI1');
     if(locationId.length) {
       postLocation(locationId, req.body, res)
     } else {
@@ -139,7 +139,7 @@ router.post('/new', (req, res, next) => {
         postLocation(locationId, req.body, res)
       })
       .catch((error) => {
-        console.log(error, 'locationId ERR');
+        console.log(error, 'locationId ERROR');
       })
     }
 
