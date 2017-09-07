@@ -11,7 +11,7 @@ router.post('/login', (req, res, next) => {
   .select('*')
   .where('users.user_name', req.body.user_name)
   .then(function(user) {
-    console.log(user, 'USER');
+    // console.log(user, 'USER');
     res.send(user);
   })
 })
@@ -58,8 +58,8 @@ router.get('/', (req, res, next) => {
 });
 
 router.post('/new', (req, res, next) => {
-  console.log('TEDDI1');
-  console.log(req.body.password, 'PW');
+  // console.log('TEDDI1');
+  // console.log(req.body.password, 'PW');
 
   let newUserObj = {
     user_name: req.body.user_name,
@@ -71,7 +71,7 @@ router.post('/new', (req, res, next) => {
   .insert(newUserObj)
   .returning('*')
   .then((newUserObj) => {
-    console.log('TEDDI2');
+    // console.log('TEDDI2');
     res.json(newUserObj);
   })
   .catch((error) => {
@@ -91,12 +91,12 @@ router.post('/new', (req, res, next) => {
   // }
 
   postLocation = (locationId, req, res) => {
-    console.log(req);
+    // console.log(req);
     knex('users')
     .select('*')
     .where('id', req.id)
     .then(userId => {
-      console.log(userId, 'userId');
+      // console.log(userId, 'userId');
       knex('beers')
       .returning('*')
       .insert({
@@ -112,7 +112,7 @@ router.post('/new', (req, res, next) => {
         .where('beers.id', beersObj[0].id)
         .join('locations', 'locations.id', 'beers.location_id')
         .then(displayObj => {
-          console.log(displayObj);
+          // console.log(displayObj);
           res.send(displayObj)
         })
     })
@@ -121,21 +121,21 @@ router.post('/new', (req, res, next) => {
 
   router.post('/cheers', (req, res, next) => {
     req.body.location_name = req.body.location_name.toLowerCase();
-    console.log(req.body.location_name);
+    // console.log(req.body.location_name);
   knex('locations')
   .select('*')
   .where('location_name', req.body.location_name)
   .then(locationId => {
-    console.log(locationId, 'TEDDI1');
+    // console.log(locationId, 'TEDDI1');
     if(locationId.length) {
       postLocation(locationId, req.body, res)
     } else {
-      console.log('TAZ');
+      // console.log('TAZ');
       knex('locations')
       .returning('*')
       .insert({location_name: req.body.location_name})
       .then(locationId => {
-        console.log(locationId);
+        // console.log(locationId);
         postLocation(locationId, req.body, res)
       })
       .catch((error) => {
@@ -186,7 +186,7 @@ router.get('/:id', (req, res, next) => {
   .join('locations', 'beers.location_id', '=', 'locations.id')
   .select('number_beers', 'first_name', 'friend_name', 'location_name')
   .then((beers) => {
-    console.log('GetID Route HERE', beers);
+    // console.log('GetID Route HERE', beers);
     return res.send(beers);
   });
 });
