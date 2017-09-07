@@ -10,7 +10,7 @@ exports.seed = function(knex, Promise) {
           number_beers: 2,
           user_id: 1,
           location_id: 1,
-          friend_name: 'F'
+          friend_name: 'Shannon'
         }
       ]);
     }).then(function() {
