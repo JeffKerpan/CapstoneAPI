@@ -58,7 +58,6 @@ router.get('/', (req, res, next) => {
 });
 
 router.post('/new', (req, res, next) => {
-  // console.log('TEDDI1');
   // console.log(req.body.password, 'PW');
 
   let newUserObj = {
