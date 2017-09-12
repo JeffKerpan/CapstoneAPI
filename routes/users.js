@@ -79,15 +79,8 @@ router.post('/new', (req, res, next) => {
 });
 
 
-  // let newBeersObj = { //can I insert into multiple tables in a post route
-    //I have joins in my Get route - will these carry over to my post route
-    //how do i store the name of the person who bought me a beer in the database?
-    // first_name: req.body.first_name,
-    // last_name: req.body.last_name,
-    // hashed_password: 'poop' //test with poop but then implement hashing
-    // number_beers: req.body.number_beers, //beers
-    // location_name: req.body.location_name //locations
-  // }
+//I have joins in my Get route - will these carry over to my post route
+//how do i store the name of the person who bought me a beer in the database?
 
   postLocation = (locationId, req, res) => {
     // console.log(req);
