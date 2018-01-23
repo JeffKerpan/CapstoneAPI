@@ -6,12 +6,10 @@ const saltRounds = 8;
 const bcrypt = require('bcrypt');
 
 router.post('/login', (req, res, next) => {
-  // console.log(req.body);
   knex('users')
   .select('*')
   .where('users.user_name', req.body.user_name)
   .then(function(user) {
-    // console.log(user, 'USER');
     res.send(user);
   })
 })
@@ -70,7 +68,6 @@ router.post('/new', (req, res, next) => {
   .insert(newUserObj)
   .returning('*')
   .then((newUserObj) => {
-    // console.log('TEDDI2');
     res.json(newUserObj);
   })
   .catch((error) => {
@@ -79,16 +76,11 @@ router.post('/new', (req, res, next) => {
 });
 
 
-//I have joins in my Get route - will these carry over to my post route
-//how do i store the name of the person who bought me a beer in the database?
-
   postLocation = (locationId, req, res) => {
-    // console.log(req);
     knex('users')
     .select('*')
     .where('id', req.id)
     .then(userId => {
-      // console.log(userId, 'userId');
       knex('beers')
       .returning('*')
       .insert({
@@ -104,7 +96,6 @@ router.post('/new', (req, res, next) => {
         .where('beers.id', beersObj[0].id)
         .join('locations', 'locations.id', 'beers.location_id')
         .then(displayObj => {
-          // console.log(displayObj);
           res.send(displayObj)
         })
     })
@@ -113,21 +104,17 @@ router.post('/new', (req, res, next) => {
 
   router.post('/cheers', (req, res, next) => {
     req.body.location_name = req.body.location_name.toLowerCase();
-    // console.log(req.body.location_name);
   knex('locations')
   .select('*')
   .where('location_name', req.body.location_name)
   .then(locationId => {
-    // console.log(locationId, 'TEDDI1');
     if(locationId.length) {
       postLocation(locationId, req.body, res)
     } else {
-      // console.log('TAZ');
       knex('locations')
       .returning('*')
       .insert({location_name: req.body.location_name})
       .then(locationId => {
-        // console.log(locationId);
         postLocation(locationId, req.body, res)
       })
       .catch((error) => {
@@ -139,7 +126,6 @@ router.post('/new', (req, res, next) => {
   .catch((error) => {
     console.log(error, 'NEW CHEERS ERROR');
   })
-  // console.log(newBeersObj);
 });
 
 router.post('/', (req, res, next) => {
@@ -160,14 +146,12 @@ router.post('/', (req, res, next) => {
 router.patch('/:id', (req, res, next) => {
   let id = req.params.id;
   let body = req.body;
-  // console.log(id);
   res.sendStatus(200);
 });
 
 router.delete('/:id', (req, res, next) => {
   let id = req.params.id;
   let body = req.body;
-  // console.log(id);
   res.sendStatus(200);
 });
 
@@ -178,7 +162,6 @@ router.get('/:id', (req, res, next) => {
   .join('locations', 'beers.location_id', '=', 'locations.id')
   .select('number_beers', 'first_name', 'friend_name', 'location_name')
   .then((beers) => {
-    // console.log('GetID Route HERE', beers);
     return res.send(beers);
   });
 });
